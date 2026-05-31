@@ -1,34 +1,34 @@
 # that-luac-decompiler
 
-This project is a specialized `luac` decompiler for the custom bytecode format used by the Chinese client of Sky: Children of the Light.
+这是一个面向《光遇》中国版客户端特化字节码格式的 `luac` 反编译器项目。
 
-It is not a general-purpose Lua decompiler. It is tailored to the client-specific Lua chunk layout, function body structure, opcode remapping, and output style, with the goal of restoring `.luac` scripts into readable and analyzable Lua source that is as close as possible to the original project style.
+它不是通用 Lua 反编译器，而是专门针对国服客户端使用的改造版 Lua chunk、函数体布局、opcode 映射以及脚本输出风格做适配，用于把客户端里的 `.luac` 脚本尽可能还原成可读、可分析、尽量接近原始工程风格的 Lua 源码。
 
-In addition to decompilation, this project can also compile `.lua` back into the client-compatible custom `.luac` format:
+除了反编译，这个项目现在也支持把 `.lua` 回编译成客户端可读的自定义 `.luac`：
 
-- It first uses the official Lua 5.2 `luac` compiler to generate standard Lua 5.2 bytecode
-- It then converts that standard chunk into the custom chunk format used by the Chinese client
-- So the final `compile` output is not a standard Lua chunk, but a client-specific format
+- 编译阶段先借助官方 Lua 5.2 `luac` 生成标准 5.2 bytecode
+- 然后再转换为《光遇》中国版客户端所使用的自定义 chunk 格式
+- 所以 `compile` 的最终输出不是标准 Lua chunk，而是面向客户端的特化格式
 
-## Prerequisites
+## 前置准备
 
-Compilation requires the official Lua 5.2 compiler. Download `luac52.exe` first:
+编译功能依赖官方 Lua 5.2 编译器，请先下载 `luac52.exe`：
 
-- Download: [LuaBinaries 5.2.4 Tools Executables](https://sourceforge.net/projects/luabinaries/files/5.2.4/Tools%20Executables/)
-- Place `luac52.exe` somewhere convenient on your machine
+- 下载地址：[LuaBinaries 5.2.4 Tools Executables](https://sourceforge.net/projects/luabinaries/files/5.2.4/Tools%20Executables/)
+- 下载后请将 `luac52.exe` 放到你方便指定的目录
 
-When using `compile`, pass its path explicitly with `-c` or `--compiler`.
+使用 `compile` 时，通过 `-c` 或 `--compiler` 显式指定这个编译器路径。
 
-## Usage
+## 用法
 
-Show help:
+显示帮助：
 
 ```bash
 node luac-decompiler.js
 node luac-decompiler.js help
 ```
 
-Decompile `.luac` into `.lua`:
+反编译 `.luac` 到 `.lua`：
 
 ```bash
 node luac-decompiler.js decompile input.luac
@@ -36,18 +36,18 @@ node luac-decompiler.js decompile input.luac output.lua
 node luac-decompiler.js decompile -i input.luac -o output.lua
 ```
 
-Compile `.lua` into `.luac`:
+编译 `.lua` 到 `.luac`：
 
 ```bash
 node luac-decompiler.js compile input.lua output.luac -c "C:\\Lua\\luac52.exe"
 node luac-decompiler.js compile -i input.lua -o output.luac -c "C:\\Lua\\luac52.exe"
 ```
 
-## Notes
+## 说明
 
-- Supported commands: `help`, `decompile`, `compile`
-- Supported short options: `-i`, `-o`, `-c`
-- Running without arguments shows help by default
-- `compile` requires Lua 5.2 `luac52.exe`
-- `-c` / `--compiler` specifies the path to `luac52.exe`
-- If the input filename looks like `LevelSelect.lua.luac`, the default output name becomes `LevelSelect.lua`
+- 支持命令：`help`、`decompile`、`compile`
+- 支持短参数：`-i`、`-o`、`-c`
+- 不带参数时默认显示帮助
+- `compile` 需要 Lua 5.2 的 `luac52.exe`
+- `-c` / `--compiler` 用于指定 `luac52.exe` 路径
+- 当输入文件名是 `LevelSelect.lua.luac` 这类形式时，默认输出会自动命名为 `LevelSelect.lua`
